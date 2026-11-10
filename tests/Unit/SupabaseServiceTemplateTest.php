@@ -100,6 +100,19 @@ it('collects logs only from its own stack', function () {
         ->toContain("- 'com.docker.compose.project=\${COOLIFY_RESOURCE_UUID}'");
 });
 
+it('lets Vector expand the variables its config is written with', function () {
+    $vector = supabaseTemplate()['services']['supabase-vector'];
+
+    expect(supabaseTemplateFile('./volumes/logs/vector.yml'))->toContain('${LOGFLARE_PUBLIC_ACCESS_TOKEN')
+        ->and($vector['environment'])->toContain('VECTOR_DANGEROUSLY_ALLOW_ENV_VAR_INTERPOLATION=true');
+});
+
+it('keeps Logflare below 1.52, which breaks Studio log queries on the Postgres backend', function () {
+    $tag = explode(':', supabaseTemplate()['services']['supabase-analytics']['image'])[1];
+
+    expect(version_compare($tag, '1.52.0', '<'))->toBeTrue();
+});
+
 it('verifies asymmetric keys when JWT_KEYS and JWT_JWKS are set', function () {
     $services = supabaseTemplate()['services'];
 
