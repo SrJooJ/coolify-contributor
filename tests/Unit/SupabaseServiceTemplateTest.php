@@ -113,6 +113,18 @@ it('keeps Logflare below 1.52, which breaks Studio log queries on the Postgres b
     expect(version_compare($tag, '1.52.0', '<'))->toBeTrue();
 });
 
+it('runs Realtime with the patched cowboy, cowlib and ecto from v2.158.2', function () {
+    $tag = ltrim(explode(':', supabaseTemplate()['services']['realtime-dev']['image'])[1], 'v');
+
+    expect(version_compare($tag, '2.158.2', '>='))->toBeTrue();
+});
+
+it('runs Postgres 17.11 or later, with the 17.7 to 17.11 security fixes', function () {
+    $tag = explode(':', supabaseTemplate()['services']['supabase-db']['image'])[1];
+
+    expect(version_compare($tag, '17.11', '>='))->toBeTrue();
+});
+
 it('verifies asymmetric keys when JWT_KEYS and JWT_JWKS are set', function () {
     $services = supabaseTemplate()['services'];
 

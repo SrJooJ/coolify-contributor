@@ -1688,7 +1688,7 @@ services:
       - ./volumes/snippets:/app/snippets
       - ./volumes/functions:/app/edge-functions
   supabase-db:
-    image: supabase/postgres:17.6.1.178
+    image: supabase/postgres:17.11.0.019
     healthcheck:
       test: pg_isready -U postgres -h 127.0.0.1
       interval: 5s
@@ -2437,7 +2437,7 @@ services:
 
   realtime-dev:
     # This container name looks inconsistent but is correct because realtime constructs tenant id by parsing the subdomain
-    image: supabase/realtime:v2.148.3
+    image: supabase/realtime:v2.158.3
     container_name: realtime-dev.supabase-realtime
     depends_on:
       supabase-db:
